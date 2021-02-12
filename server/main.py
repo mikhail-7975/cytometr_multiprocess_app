@@ -11,8 +11,10 @@ print('connected:', addr)
 
 while True:
     data = conn.recv(9090)
-    if data != b'':
-        print(data)
+    if not data:
+        break
+        #print(data)
+    print(data)
     conn.send(data.upper())
 
 conn.close()
