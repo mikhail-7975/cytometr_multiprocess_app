@@ -16,3 +16,18 @@ bin-release/
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
 # should NOT be excluded as they contain compiler settings and other important
 # information for Eclipse / Flash Builder.
+
+#PyCharm
+venv/
+.idea/
+
+#Visual studio folders
+client/Debug/
+client/client/Debug
+client/.vs/
+
+#visual studio files
+*.sln
+*.vcxproj
+*.filters
+*.user
