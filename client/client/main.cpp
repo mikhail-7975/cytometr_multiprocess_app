@@ -2,7 +2,7 @@
 #include <ws2tcpip.h>
 #include <stdio.h>
 
-#define DEFAULT_PORT "27015"
+#define DEFAULT_PORT "9090"
 
 #pragma comment(lib, "Ws2_32.lib")
 
@@ -30,7 +30,7 @@ int main() {
 	hints.ai_protocol = IPPROTO_TCP;
 //===============================================
 // Resolve the server address and port
-	char addr[] = "0.0.0.0";
+	char addr[] = "127.0.0.1";
 	iResult = getaddrinfo(/*argv[1]*/addr, DEFAULT_PORT, &hints, &result);
 	if (iResult != 0) {
 		printf("getaddrinfo failed: %d\n", iResult);
@@ -61,6 +61,7 @@ int main() {
 	// Connect to server.
 	iResult = connect(ConnectSocket, ptr->ai_addr, (int)ptr->ai_addrlen);
 	if (iResult == SOCKET_ERROR) {
+		printf("Socket connect error: %d\n", WSAGetLastError());
 		closesocket(ConnectSocket);
 		ConnectSocket = INVALID_SOCKET;
 	}
