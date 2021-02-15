@@ -1,6 +1,10 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
-#include <stdio.h>
+//#include <stdio.h>
+
+#include <iostream>
+#include <string>
+#include <sstream>
 
 #define DEFAULT_BUFLEN 512
 #pragma comment(lib, "Ws2_32.lib")
@@ -71,12 +75,11 @@ public:
 
 
 	}
-	int tcpSend() {
-		iResult = send(ConnectSocket, sendbuf, (int)strlen(sendbuf), 0);
+	
+	int tcpSend(const char* _sendBuf, size_t _buffLen) {
+		iResult = send(ConnectSocket, _sendBuf, _buffLen, 0);
 		if (iResult == SOCKET_ERROR) {
 			printf("send failed: %d\n", WSAGetLastError());
-			//closesocket(ConnectSocket);
-			//WSACleanup();
 			return iResult;
 		} else{
 			printf("Sent ok\n");
@@ -85,9 +88,9 @@ public:
 		return iResult;
 	}
 
-	int tcpReceive() {
+	int tcpReceive(size_t _recvbuflen) {
 		//do {
-			iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
+			iResult = recv(ConnectSocket, recvbuf, _recvbuflen, 0);
 			printf("iResult == %d\n", iResult);
 			if (iResult > 0) {
 				printf("Bytes received: %d\n", iResult);
@@ -114,18 +117,22 @@ int main() {
 	tcpClient client = tcpClient();
 	for(int i = 0; i < 1000; i++) {
 		printf("%d: \n", i);
-		client.tcpSend();
-		client.tcpReceive();
-		Sleep(2000);
+		int arr[2000];
+		for (int i = 0; i < 2000; ++i) {
+			arr[i] = i + 1;
+		}
+		std::ostringstream s;
+		std::string output_str();
+		char ststr_arr[2000 * 5];
+		s << i;
+		for (int _i = 0; _i < 2000; ++_i) {
+			s << ' ' << arr[_i];
+		}
+		//std::cout << s << s
+		std::string ostr = s.str();
+		client.tcpSend(ostr.c_str(), ostr.length());
+		//client.tcpReceive();
+		Sleep(10);
 	}
-
-	
-	/*while (1) {
-		int res = client.tcpReceive();
-		if (res == -1)
-			break;
-		printf(".");
-		Sleep(0.5);
-	}*/
 	return 0;
 }
