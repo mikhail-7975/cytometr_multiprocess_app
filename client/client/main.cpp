@@ -1,10 +1,29 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <list>
+
+#include <thread>
+#include <functional>
 
 #include "TcpClient.h"
+#include "data_reading.h"
+#include "data_preprocessing.h"
+#include "data_output.h"
+#include "cmd_input.h"
+
+std::list<std::string> inpRawDataQueue; 
+std::list<std::string> tracesQueue;
+std::string tcpSendBuf;
+std::string tcpRecvBuf;
 
 int main() {
+
+	std::thread reader(data_reader);
+	std::thread preprocessor(data_preprocessor);
+	std::thread outputThread(data_writer);
+	std::thread cmdInputThread(cmd_receiver);
+	/*
 	tcpClient client = tcpClient();
 	for(int i = 0; i < 1000; i++) {
 		printf("%d: \n", i);
@@ -25,5 +44,11 @@ int main() {
 		//Sleep(10);
 	}
 	client.tcpReceive(100);
+	*/
+
+	reader.join();
+	preprocessor.join();
+	outputThread.join();
+	cmdInputThread.join();
 	return 0;
 }
