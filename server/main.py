@@ -10,14 +10,11 @@ conn, addr = sock.accept()
 print('connected:', addr)
 
 while True:
-    cmd = input()
-    if cmd == "rcv":
-        data = conn.recv(9090)
-        print(data)
-    if cmd == "snd":
-        conn.send(b'test responce')
-    if cmd == "cls":
-        conn.close()
-        break
+    data = conn.recv(9090)
+    if data != b'':
+        #print(data)
+        #for i in l:
+        #    print(int(i))
+        print([int(i) for i in data.decode('utf-8').split(' ')])
 
 print("connection closed")
