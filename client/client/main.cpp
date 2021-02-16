@@ -13,7 +13,7 @@
 #include "data_output.h"
 #include "cmd_input.h"
 
-std::list<std::string> inpRawDataQueue; 
+std::list<std::vector<uint16_t>> inpRawDataQueue;
 std::list<std::vector<int>> tracesQueue;
 std::string tcpSendBuf;
 std::string tcpRecvBuf;
@@ -21,7 +21,6 @@ std::string tcpRecvBuf;
 int main() {
 
 	std::thread reader(data_reader, std::ref(inpRawDataQueue));
-	
 	std::thread preprocessor(data_preprocessor, std::ref(inpRawDataQueue), std::ref(tracesQueue));
 	std::thread outputThread(data_writer, std::ref(tracesQueue));
 	std::thread cmdInputThread(cmd_receiver);
