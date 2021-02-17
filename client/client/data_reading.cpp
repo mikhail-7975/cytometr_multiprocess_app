@@ -8,6 +8,8 @@
 #include <chrono>
 #include <thread>
 
+#include <Windows.h>
+
 #include <iostream>
 
 static std::mutex rawDataQMtx; 

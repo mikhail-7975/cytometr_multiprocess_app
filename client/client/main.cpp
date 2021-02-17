@@ -13,13 +13,32 @@
 #include "data_output.h"
 #include "cmd_input.h"
 
+#include "constants.h"
+
 std::list<std::vector<uint16_t>> inpRawDataQueue;
 std::list<std::vector<int>> tracesQueue;
 std::string tcpSendBuf;
 std::string tcpRecvBuf;
 
-int main() {
+/*
+struct ThreadStates {
+	ThreadStates() {
+		status reader_state = status::ok;
+		status preprocessor_state = status::ok;
+		status output_state = status::ok;
+		status cmdInp_state = status::ok;
+	}
+	status reader_state;// = status::ok;
+	status preprocessor_state;// = status::ok;
+	status output_state;// = status::ok;
+	status cmdInp_state;// = status::ok;
+};
+*/
 
+
+int main() {
+//	ThreadStates TS();
+//	TS.reader_state = status::busy;
 	std::thread reader(data_reader, std::ref(inpRawDataQueue));
 	std::thread preprocessor(data_preprocessor, std::ref(inpRawDataQueue), std::ref(tracesQueue));
 	std::thread outputThread(data_writer, std::ref(tracesQueue));
